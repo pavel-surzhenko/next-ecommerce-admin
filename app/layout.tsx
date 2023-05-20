@@ -1,4 +1,4 @@
-import { NextAuthProvider } from '../components/Providers';
+import { NextAuthProvider } from './components/Providers';
 import './globals.css';
 
 export const metadata = {

@@ -1,8 +1,12 @@
+'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const Nav = () => {
-    const inactiveLink = 'flex gap-1 p-1'
-    const activeLink = inactiveLink + ' bg-white text-blue-900 rounded-l-lg'
+    const inactiveLink = 'flex gap-1 p-1';
+    const activeLink = inactiveLink + ' bg-white text-blue-900 rounded-l-lg';
+    const pathName = usePathname();
+
     return (
         <aside className='text-white p-4 pr-0'>
             <Link
@@ -28,7 +32,7 @@ const Nav = () => {
             <nav className='flex flex-col gap-2'>
                 <Link
                     href={'/'}
-                    className={activeLink}
+                    className={pathName === '/' ? activeLink : inactiveLink}
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -48,7 +52,7 @@ const Nav = () => {
                 </Link>
                 <Link
                     href={'/products'}
-                    className={inactiveLink}
+                    className={pathName === '/products' ? activeLink : inactiveLink}
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -68,7 +72,7 @@ const Nav = () => {
                 </Link>
                 <Link
                     href={'/orders'}
-                    className={inactiveLink}
+                    className={pathName === '/orders' ? activeLink : inactiveLink}
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -88,7 +92,7 @@ const Nav = () => {
                 </Link>
                 <Link
                     href={'/settings'}
-                    className={inactiveLink}
+                    className={pathName === '/settings' ? activeLink : inactiveLink}
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
