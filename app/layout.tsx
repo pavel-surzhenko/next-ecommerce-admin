@@ -1,4 +1,4 @@
-import { NextAuthProvider } from './components/Providers';
+import { NextAuthProvider } from '../components/Providers';
 import './globals.css';
 
 export const metadata = {
@@ -15,7 +15,11 @@ export default function RootLayout({
         <html lang='en'>
             <head />
             <body>
-                <NextAuthProvider>{children}</NextAuthProvider>
+                <NextAuthProvider>
+                    <div className='bg-blue-900 min-h-screen flex'>
+                        {children}
+                    </div>
+                </NextAuthProvider>
             </body>
         </html>
     );
