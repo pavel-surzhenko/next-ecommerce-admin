@@ -52,7 +52,11 @@ const Nav = () => {
                 </Link>
                 <Link
                     href={'/products'}
-                    className={pathName === '/products' ? activeLink : inactiveLink}
+                    className={
+                        pathName.includes('/products')
+                            ? activeLink
+                            : inactiveLink
+                    }
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -72,7 +76,9 @@ const Nav = () => {
                 </Link>
                 <Link
                     href={'/orders'}
-                    className={pathName === '/orders' ? activeLink : inactiveLink}
+                    className={
+                        pathName.includes('/orders') ? activeLink : inactiveLink
+                    }
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -92,7 +98,9 @@ const Nav = () => {
                 </Link>
                 <Link
                     href={'/settings'}
-                    className={pathName === '/settings' ? activeLink : inactiveLink}
+                    className={
+                        pathName.includes('/settings') ? activeLink : inactiveLink
+                    }
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'

@@ -1,13 +1,14 @@
+import Link from 'next/link';
 import Nav from '../components/Nav';
 
 const Products = () => {
     return (
-        <>
-            <Nav />
-            <div className='bg-white flex-grow mt-2 mr-2 rounded-lg mb-2 p-4'>
-                <div>Products page</div>
-            </div>
-        </>
+        <Link
+            className='bg-blue-900 text-white rounded-md py-1 px-2'
+            href={'/products/new'}
+        >
+            Add new product
+        </Link>
     );
 };
 export default Products;
