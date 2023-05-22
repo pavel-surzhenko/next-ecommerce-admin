@@ -2,17 +2,22 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const NewProduct = () => {
+export default function NewProduct() {
     const [mounted, setMounted] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
 
-    const createProduct = async (ev: React.FormEvent) => {
+    async function saveProduct(ev: React.FormEvent) {
         ev.preventDefault();
-        const data: ProductData = { title, description, price };
+        const data = {
+            title,
+            description,
+            price,
+        };
+
         await axios.post('/api/products', data);
-    };
+    }
 
     useEffect(() => {
         setMounted(true);
@@ -21,7 +26,7 @@ const NewProduct = () => {
     if (!mounted) return <></>;
 
     return (
-        <form onSubmit={createProduct}>
+        <form onSubmit={saveProduct}>
             <h1>New Product</h1>
             <label>Product name</label>
             <input
@@ -51,10 +56,9 @@ const NewProduct = () => {
             </button>
         </form>
     );
-};
-export default NewProduct;
+}
 
-interface ProductData {
+export interface ProductData {
     title: string;
     description: string;
     price: string;
