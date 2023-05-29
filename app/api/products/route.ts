@@ -15,8 +15,18 @@ export async function POST(request: Request) {
     return NextResponse.json(productDoc)
 }
 
-export async function GET() {
-    const products: ProductData[] = await Product.find()
+export async function GET(request: Request) {
+    await mongooseConnect()
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
 
-    return NextResponse.json(products)
+    if (id) {
+        const product: ProductData | null = await Product.findById(id)!
+        return NextResponse.json(product)
+    } else {
+        const products: ProductData[] = await Product.find().maxTimeMS(20000)
+
+        return NextResponse.json(products)
+    }
+
 }
