@@ -1,16 +1,20 @@
 import { ProductData } from "@/app/products/new/page"
 import mongooseConnect from "@/lib/mongoose"
 import { Product } from "@/models/Product"
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextResponse } from "next/server"
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
-    const { method } = req
+export async function POST(request: Request) {
+    const { method } = request
+
     await mongooseConnect()
     if (method === 'POST') {
-        const { title, description, price }: ProductData = req.body
+        const body = await request.json()
+        const { title, description, price }: ProductData = body
+
         const productDoc = await Product.create({
             title, description, price
         })
-        res.json(productDoc)
+
+        return NextResponse.json(productDoc)
     }
 }
