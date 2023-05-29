@@ -17,7 +17,11 @@ export default function EditProductPage({
             setProductInfo(response.data);
         });
     }, [id]);
-    console.log('data:', productInfo);
 
-    return <>{productInfo && <ProductForm {...productInfo} />}</>;
+    return (
+        <>
+            <h1>Edit Product</h1>
+            {productInfo && <ProductForm {...productInfo} />}
+        </>
+    );
 }

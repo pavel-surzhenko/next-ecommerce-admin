@@ -2,18 +2,19 @@ import axios from 'axios';
 import { redirect } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { ProductData } from '../products/new/page';
+import { GetProductData } from '../products/page';
 
 export default function ProductForm({
+    _id,
     title: existingTitle,
     description: existingDescription,
     price: existingPrice,
-}: Partial<ProductData>) {
+}: Partial<GetProductData>) {
     const [mounted, setMounted] = useState(false);
     const [title, setTitle] = useState(existingTitle || '');
     const [description, setDescription] = useState(existingDescription || '');
     const [price, setPrice] = useState(existingPrice || '');
     const [goToProducts, setGoToProducts] = useState(false);
-    console.log(title);
 
     async function saveProduct(ev: React.FormEvent) {
         ev.preventDefault();
@@ -23,7 +24,12 @@ export default function ProductForm({
             price,
         };
 
-        await axios.post<ProductData>('/api/products', data);
+        if (_id) {
+            await axios.put<GetProductData>('/api/products', { ...data, _id });
+        } else {
+            await axios.post<ProductData>('/api/products', data);
+        }
+
         setGoToProducts(true);
     }
 

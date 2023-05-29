@@ -1,4 +1,5 @@
 import { ProductData } from "@/app/products/new/page"
+import { GetProductData } from "@/app/products/page"
 import mongooseConnect from "@/lib/mongoose"
 import { Product } from "@/models/Product"
 import { NextResponse } from "next/server"
@@ -28,5 +29,12 @@ export async function GET(request: Request) {
 
         return NextResponse.json(products)
     }
+}
 
+export async function PUT(request: Request) {
+    await mongooseConnect()
+    const body = await request.json()
+    const { title, description, price, _id }: GetProductData = body
+    await Product.updateOne({ _id }, { title, description, price })
+    return NextResponse.json(true)
 }
