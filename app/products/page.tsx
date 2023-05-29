@@ -1,7 +1,14 @@
+'use client';
+import axios from 'axios';
 import Link from 'next/link';
-import Nav from '../components/Nav';
+import { useEffect } from 'react';
 
 const Products = () => {
+    useEffect(() => {
+        axios
+            .get('/api/products')
+            .then((response) => console.log(response.data));
+    });
     return (
         <Link
             className='btn-primary'

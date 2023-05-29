@@ -1,5 +1,6 @@
 'use client';
 import axios from 'axios';
+import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function NewProduct() {
@@ -7,6 +8,7 @@ export default function NewProduct() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
+    const [goToProducts, setGoToProducts] = useState(false);
 
     async function saveProduct(ev: React.FormEvent) {
         ev.preventDefault();
@@ -17,11 +19,16 @@ export default function NewProduct() {
         };
 
         await axios.post('/api/products', data);
+        setGoToProducts(true);
     }
 
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    if (goToProducts) {
+        return redirect('/products');
+    }
 
     if (!mounted) return <></>;
 

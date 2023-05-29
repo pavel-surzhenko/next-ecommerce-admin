@@ -4,17 +4,19 @@ import { Product } from "@/models/Product"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
-    const { method } = request
-
     await mongooseConnect()
-    if (method === 'POST') {
-        const body = await request.json()
-        const { title, description, price }: ProductData = body
+    const body = await request.json()
+    const { title, description, price }: ProductData = body
 
-        const productDoc = await Product.create({
-            title, description, price
-        })
+    const productDoc = await Product.create({
+        title, description, price
+    })
 
-        return NextResponse.json(productDoc)
-    }
+    return NextResponse.json(productDoc)
+}
+
+export async function GET() {
+    const products: ProductData[] = await Product.find()
+
+    return NextResponse.json(products)
 }
