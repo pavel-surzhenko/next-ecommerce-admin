@@ -38,3 +38,13 @@ export async function PUT(request: Request) {
     await Product.updateOne({ _id }, { title, description, price })
     return NextResponse.json(true)
 }
+
+export async function DELETE(request: Request) {
+    await mongooseConnect()
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    if (id) {
+        await Product.deleteOne({ _id: id })
+        return NextResponse.json(true)
+    }
+}

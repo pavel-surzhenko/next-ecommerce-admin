@@ -3,6 +3,7 @@ import ProductForm from '@/app/components/ProductForm';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ProductData } from '../../new/page';
+import { GetProductData } from '../../page';
 
 export default function EditProductPage({
     params,
@@ -13,7 +14,7 @@ export default function EditProductPage({
     const [productInfo, setProductInfo] = useState<ProductData>();
 
     useEffect(() => {
-        axios.get('/api/products?id=' + id).then((response) => {
+        axios.get<GetProductData>('/api/products?id=' + id).then((response) => {
             setProductInfo(response.data);
         });
     }, [id]);
