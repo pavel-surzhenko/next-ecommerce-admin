@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { redirect } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SyntheticEvent, ChangeEvent } from 'react';
 import { ProductData } from '../products/new/page';
 import { GetProductData } from '../products/page';
 
 export default function ProductForm({
     _id,
     title: existingTitle,
+    images,
     description: existingDescription,
     price: existingPrice,
 }: Partial<GetProductData>) {
@@ -20,6 +21,7 @@ export default function ProductForm({
         ev.preventDefault();
         const data: ProductData = {
             title,
+            images,
             description,
             price,
         };
@@ -41,6 +43,15 @@ export default function ProductForm({
         return redirect('/products');
     }
 
+    async function uploadImages(ev: ChangeEvent<HTMLInputElement>) {
+        const files = Array.from(ev.target.files!);
+        const data = new FormData();
+        for (const file of files) {
+            data.append('files', file);
+        }
+        const res = await axios.post('/api/upload', data);
+    }
+
     if (!mounted) return <></>;
 
     return (
@@ -53,6 +64,32 @@ export default function ProductForm({
                 value={title}
                 onChange={(ev) => setTitle(ev.target.value)}
             />
+            <label>Photos</label>
+            <div className='mb-2'>
+                <label className='w-24 h-24 cursor-pointer text-center flex text-sm gap-1 text-gray-500 rounded-lg items-center bg-gray-200 justify-center'>
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth={1.5}
+                        stroke='currentColor'
+                        className='w-6 h-6'
+                    >
+                        <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5'
+                        />
+                    </svg>
+                    <div>Upload</div>
+                    <input
+                        type='file'
+                        className='hidden'
+                        onChange={uploadImages}
+                    />
+                </label>
+                {!images?.length && <div> No photos in this product</div>}
+            </div>
             <label>Description</label>
             <textarea
                 placeholder='description'
