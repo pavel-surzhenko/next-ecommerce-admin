@@ -16,7 +16,9 @@ textarea:focus {
 h1 {
     @apply text-blue-900 mb-2 text-xl;
 }
-
+img {
+    max-height: 100%;
+}
 label {
     @apply text-blue-900;
 }

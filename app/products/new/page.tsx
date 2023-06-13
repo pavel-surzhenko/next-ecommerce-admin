@@ -7,7 +7,7 @@ export default function NewProduct() {
 
 export interface ProductData {
     title: string;
-    images?: File[];
+    images?: string[];
     description: string;
     price: string;
 }

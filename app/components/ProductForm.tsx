@@ -1,13 +1,20 @@
+/* eslint-disable @next/next/no-img-element */
 import axios from 'axios';
 import { redirect } from 'next/navigation';
 import { useState, useEffect, SyntheticEvent, ChangeEvent } from 'react';
 import { ProductData } from '../products/new/page';
 import { GetProductData } from '../products/page';
+import Image, { ImageLoaderProps } from 'next/image';
+import Spinner from './Spinner';
+
+// const myLoader = ({ src, width, quality }: ImageLoaderProps) => {
+//     return `${src}?w=${width}&q=${quality || 75}`;
+// };
 
 export default function ProductForm({
     _id,
     title: existingTitle,
-    images,
+    images: existingImages,
     description: existingDescription,
     price: existingPrice,
 }: Partial<GetProductData>) {
@@ -16,6 +23,8 @@ export default function ProductForm({
     const [description, setDescription] = useState(existingDescription || '');
     const [price, setPrice] = useState(existingPrice || '');
     const [goToProducts, setGoToProducts] = useState(false);
+    const [images, setImages] = useState(existingImages || []);
+    const [uploading, setUploading] = useState(false);
 
     async function saveProduct(ev: React.FormEvent) {
         ev.preventDefault();
@@ -45,11 +54,19 @@ export default function ProductForm({
 
     async function uploadImages(ev: ChangeEvent<HTMLInputElement>) {
         const files = Array.from(ev.target.files!);
-        const data = new FormData();
-        for (const file of files) {
-            data.append('files', file);
+        if (files.length > 0) {
+            setUploading(true);
+            const data = new FormData();
+            for (const file of files) {
+                data.append('file', file);
+            }
+            const res = await axios.post('/api/upload', data);
+
+            setImages((oldImages) => {
+                return [res.data.link, ...oldImages];
+            });
+            setUploading(false);
         }
-        const res = await axios.post('/api/upload', data);
     }
 
     if (!mounted) return <></>;
@@ -65,7 +82,27 @@ export default function ProductForm({
                 onChange={(ev) => setTitle(ev.target.value)}
             />
             <label>Photos</label>
-            <div className='mb-2'>
+            <div className='mb-2 flex flex-wrap gap-1'>
+                {!!images?.length &&
+                    images.map((link) => (
+                        <div
+                            key={link}
+                            className='h-24'
+                        >
+                            <Image
+                                width={96}
+                                height={96}
+                                src={link}
+                                alt=''
+                                className='rounded-lg'
+                            />
+                        </div>
+                    ))}
+                {uploading && (
+                    <div className='h-24 flex items-center'>
+                        <Spinner />
+                    </div>
+                )}
                 <label className='w-24 h-24 cursor-pointer text-center flex text-sm gap-1 text-gray-500 rounded-lg items-center bg-gray-200 justify-center'>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -88,7 +125,6 @@ export default function ProductForm({
                         onChange={uploadImages}
                     />
                 </label>
-                {!images?.length && <div> No photos in this product</div>}
             </div>
             <label>Description</label>
             <textarea

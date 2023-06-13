@@ -7,10 +7,10 @@ import { NextResponse } from "next/server"
 export async function POST(request: Request) {
     await mongooseConnect()
     const body = await request.json()
-    const { title, description, price }: ProductData = body
+    const { title, description, price, images }: ProductData = body
 
     const productDoc = await Product.create({
-        title, description, price
+        title, description, price, images
     })
 
     return NextResponse.json(productDoc)
@@ -34,8 +34,8 @@ export async function GET(request: Request) {
 export async function PUT(request: Request) {
     await mongooseConnect()
     const body = await request.json()
-    const { title, description, price, _id }: GetProductData = body
-    await Product.updateOne({ _id }, { title, description, price })
+    const { title, description, price, _id, images }: GetProductData = body
+    await Product.updateOne({ _id }, { title, description, price, images })
     return NextResponse.json(true)
 }
 

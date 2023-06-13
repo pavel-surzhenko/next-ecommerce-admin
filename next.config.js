@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['lh3.googleusercontent.com'],
+        domains: [
+            'lh3.googleusercontent.com',
+            'pavlo-next-ecommerce.s3.amazonaws.com',
+        ],
     },
     experimental: {
         appDir: true,
@@ -14,3 +17,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+//,

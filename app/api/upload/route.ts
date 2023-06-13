@@ -15,7 +15,7 @@ const bucketName = 'pavlo-next-ecommerce'
 export async function POST(req: Request) {
     const formData = await req.formData()
 
-    const file = formData.get('files') as Blob | null
+    const file = formData.get('file') as Blob | null
     const ext = file?.name.split('.').pop()
     const newFileName = Date.now() + '.' + ext
 
@@ -31,15 +31,16 @@ export async function POST(req: Request) {
         credentials: {
             accessKeyId: process.env.S3_ACCESS_KEY!,
             secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!
-        }
+        },
     })
+
 
     client.send(new PutObjectCommand({
         Bucket: bucketName,
         Key: newFileName,
         Body: Buffer.from(buffer),
         ACL: 'public-read',
-        ContentType: ext
+        ContentType: ext,
     }))
 
     const link = `https://${bucketName}.s3.amazonaws.com/${newFileName}`
