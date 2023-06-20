@@ -66,7 +66,6 @@ export default function ProductForm({
 
     return (
         <form onSubmit={saveProduct}>
-            <h1>New Product</h1>
             <label>Product name</label>
             <input
                 type='text'
