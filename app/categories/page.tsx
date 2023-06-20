@@ -8,21 +8,27 @@ const Categories = () => {
     const [categories, setCategories] = useState<categoryData[]>([]);
     const [isFetch, setIsFetch] = useState<boolean>(false);
 
-    useEffect(() => {
+    function fetchCategories() {
         axios
             .get<categoryData[]>('/api/categories')
             .then((result: AxiosResponse<categoryData[]>) => {
                 setCategories(result.data);
                 setIsFetch(true);
             });
-    }, []);
+    }
 
     async function saveCategory(ev: React.FormEvent): Promise<void> {
         ev.preventDefault();
 
         await axios.post<string>('/api/categories', { name });
         setName('');
+        fetchCategories();
     }
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
     return (
         <>
             <h1>Categories</h1>
@@ -45,26 +51,28 @@ const Categories = () => {
                     Save
                 </button>
             </form>
-            <table className='basic mt-4'>
-                <thead>
-                    <tr>
-                        <td>Category name</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {!isFetch && (
-                        <div className='h-24 flex items-center justify-center'>
-                            <Spinner />
-                        </div>
-                    )}
-                    {categories?.length > 0 &&
-                        categories.map((category) => (
-                            <tr key={category._id}>
-                                <td>{category.name}</td>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>
+            {!isFetch && (
+                <div className='h-24 flex items-center justify-center'>
+                    <Spinner />
+                </div>
+            )}
+            {isFetch && (
+                <table className='basic mt-4'>
+                    <thead>
+                        <tr>
+                            <td>Category name</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {categories?.length > 0 &&
+                            categories.map((category) => (
+                                <tr key={category._id}>
+                                    <td>{category.name}</td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
+            )}
         </>
     );
 };
