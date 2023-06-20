@@ -1,15 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
+'use client';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
-import { useState, useEffect, SyntheticEvent, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { ProductData } from '../products/new/page';
 import { GetProductData } from '../products/page';
-import Image, { ImageLoaderProps } from 'next/image';
+import Image from 'next/legacy/image';
 import Spinner from './Spinner';
-
-// const myLoader = ({ src, width, quality }: ImageLoaderProps) => {
-//     return `${src}?w=${width}&q=${quality || 75}`;
-// };
 
 export default function ProductForm({
     _id,
@@ -46,7 +42,7 @@ export default function ProductForm({
 
     useEffect(() => {
         setMounted(true);
-    }, []);
+    }, [images]);
 
     if (goToProducts) {
         return redirect('/products');
@@ -61,10 +57,7 @@ export default function ProductForm({
                 data.append('file', file);
             }
             const res = await axios.post('/api/upload', data);
-
-            setImages((oldImages) => {
-                return [res.data.link, ...oldImages];
-            });
+            setImages([...images, res.data.link]);
             setUploading(false);
         }
     }
@@ -93,7 +86,7 @@ export default function ProductForm({
                                 width={96}
                                 height={96}
                                 src={link}
-                                alt=''
+                                alt='image'
                                 className='rounded-lg'
                             />
                         </div>

@@ -3,6 +3,7 @@ import { PageConfig } from 'next';
 import { NextResponse } from 'next/server';
 import { File } from 'buffer';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import mime from 'mime-types';
 
 export const config: PageConfig = {
     api: {
@@ -34,18 +35,16 @@ export async function POST(req: Request) {
         },
     })
 
-
+    const contentType = mime.lookup(newFileName);
     client.send(new PutObjectCommand({
         Bucket: bucketName,
         Key: newFileName,
         Body: Buffer.from(buffer),
         ACL: 'public-read',
-        ContentType: ext,
+        ContentType: contentType !== false ? contentType : undefined,
     }))
 
     const link = `https://${bucketName}.s3.amazonaws.com/${newFileName}`
 
     return NextResponse.json({ link })
-
-
 }

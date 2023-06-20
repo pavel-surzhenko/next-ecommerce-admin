@@ -4,7 +4,15 @@ const nextConfig = {
         domains: [
             'lh3.googleusercontent.com',
             'pavlo-next-ecommerce.s3.amazonaws.com',
+            'localhost',
         ],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'pavlo-next-ecommerce.s3.amazonaws.com',
+            },
+        ],
+        unoptimized: true,
     },
     experimental: {
         appDir: true,
