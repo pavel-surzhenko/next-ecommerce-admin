@@ -10,4 +10,5 @@ export interface ProductData {
     images?: string[];
     description: string;
     price: string;
+    category?: string;
 }

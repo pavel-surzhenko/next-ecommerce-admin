@@ -195,6 +195,6 @@ type CategoryChild = {
     __v: number;
 };
 
-interface ICategory extends CategoryChild {
+export interface ICategory extends CategoryChild {
     parent: CategoryChild;
 }

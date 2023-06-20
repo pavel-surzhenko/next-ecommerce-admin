@@ -6,6 +6,7 @@ import { ProductData } from '../products/new/page';
 import { GetProductData } from '../products/page';
 import Image from 'next/legacy/image';
 import Spinner from './Spinner';
+import { ICategory } from '../categories/page';
 
 export default function ProductForm({
     _id,
@@ -13,14 +14,22 @@ export default function ProductForm({
     images: existingImages,
     description: existingDescription,
     price: existingPrice,
+    category: existingCategory,
 }: Partial<GetProductData>) {
-    const [mounted, setMounted] = useState(false);
     const [title, setTitle] = useState(existingTitle || '');
     const [description, setDescription] = useState(existingDescription || '');
     const [price, setPrice] = useState(existingPrice || '');
     const [goToProducts, setGoToProducts] = useState(false);
     const [images, setImages] = useState(existingImages || []);
     const [uploading, setUploading] = useState(false);
+    const [categories, setCategories] = useState<ICategory[]>([]);
+    const [category, setCategory] = useState(existingCategory || '');
+
+    useEffect(() => {
+        axios.get('/api/categories').then((result) => {
+            setCategories(result.data);
+        });
+    }, []);
 
     async function saveProduct(ev: React.FormEvent) {
         ev.preventDefault();
@@ -29,6 +38,7 @@ export default function ProductForm({
             images,
             description,
             price,
+            category,
         };
 
         if (_id) {
@@ -39,10 +49,6 @@ export default function ProductForm({
 
         setGoToProducts(true);
     }
-
-    useEffect(() => {
-        setMounted(true);
-    }, [images]);
 
     if (goToProducts) {
         return redirect('/products');
@@ -62,8 +68,6 @@ export default function ProductForm({
         }
     }
 
-    if (!mounted) return <></>;
-
     return (
         <form onSubmit={saveProduct}>
             <label>Product name</label>
@@ -73,6 +77,22 @@ export default function ProductForm({
                 value={title}
                 onChange={(ev) => setTitle(ev.target.value)}
             />
+            <label>Category</label>
+            <select
+                value={category}
+                onChange={(ev) => setCategory(ev.target.value)}
+            >
+                <option value=''>Uncategorized</option>
+                {categories.length > 0 &&
+                    categories.map((category) => (
+                        <option
+                            key={category._id}
+                            value={category._id}
+                        >
+                            {category.name}
+                        </option>
+                    ))}
+            </select>
             <label>Photos</label>
             <div className='mb-2 flex flex-wrap gap-1'>
                 {!!images?.length &&
