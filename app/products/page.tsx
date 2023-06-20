@@ -23,8 +23,6 @@ const Products = () => {
         getProducts();
     }, []);
 
-    // if (!mounted) return <></>;
-
     return (
         <>
             <Link
