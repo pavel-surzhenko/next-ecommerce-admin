@@ -1,8 +1,9 @@
 import clientPromise from '@/lib/mongodb'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
-import NextAuth, { NextAuthOptions } from 'next-auth'
+import NextAuth, { Awaitable, DefaultSession, NextAuthOptions, Session } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
+const adminEmails = ['archypasha@gmail.com']
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -18,7 +19,15 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ],
-    adapter: MongoDBAdapter(clientPromise)
+    adapter: MongoDBAdapter(clientPromise),
+    callbacks: {
+        async signIn({ user }) {
+            if (adminEmails.includes(user?.email!)) {
+                return true
+            } else return false
+        }
+    }
+
 }
 const handler = NextAuth(authOptions)
 
