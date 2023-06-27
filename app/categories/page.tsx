@@ -81,44 +81,61 @@ const Categories = () => {
             </label>
             <form
                 onSubmit={saveCategory}
-                className='flex gap-1'
+                className=''
             >
-                <input
-                    type='text'
-                    placeholder='Category name'
-                    className='mb-0'
-                    value={name}
-                    onChange={(ev) => setName(ev.target.value)}
-                />
-                <select
-                    className='mb-0'
-                    value={parentCategory}
-                    onChange={(ev) => setParentCategory(ev.target.value)}
-                >
-                    <option value=''>No parent category</option>
-                    {categories?.length > 0 &&
-                        categories.map((category) => (
-                            <option
-                                value={category._id}
-                                key={category._id}
-                            >
-                                {category.name}
-                            </option>
-                        ))}
-                </select>
-                <button
-                    type='submit'
-                    className='btn-primary py-1'
-                >
-                    Save
-                </button>
+                <div className='flex gap-1 mb-2'>
+                    <input
+                        type='text'
+                        placeholder='Category name'
+                        className='mb-0 w-auto'
+                        value={name}
+                        onChange={(ev) => setName(ev.target.value)}
+                    />
+                    <select
+                        className='mb-0 w-auto'
+                        value={parentCategory}
+                        onChange={(ev) => setParentCategory(ev.target.value)}
+                    >
+                        <option value=''>No parent category</option>
+                        {categories?.length > 0 &&
+                            categories.map((category) => (
+                                <option
+                                    value={category._id}
+                                    key={category._id}
+                                >
+                                    {category.name}
+                                </option>
+                            ))}
+                    </select>
+                </div>
+                <div className='flex gap-1'>
+                    {editedCategory && (
+                        <button
+                            type='button'
+                            onClick={() => {
+                                setEditedCategory(null);
+                                setName('');
+                                setParentCategory('');
+                            }}
+                            className='btn-default'
+                        >
+                            Cancel
+                        </button>
+                    )}
+                    <button
+                        type='submit'
+                        className='btn-primary py-1'
+                    >
+                        Save
+                    </button>
+                </div>
             </form>
             {!isFetch && (
                 <div className='h-24 flex items-center justify-center'>
                     <Spinner />
                 </div>
             )}
-            {isFetch && (
+            {isFetch && !editedCategory && (
                 <table className='basic mt-4'>
                     <thead>
                         <tr>
