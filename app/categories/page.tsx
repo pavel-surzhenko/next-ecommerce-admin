@@ -1,7 +1,7 @@
 'use client';
 import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
-import Spinner from '../components/Spinner';
+import { Spinner } from '../components/Spinner';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 

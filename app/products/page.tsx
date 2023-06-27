@@ -3,10 +3,9 @@ import axios, { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ProductData } from './new/page';
-import Spinner from '../components/Spinner';
+import { Spinner } from '../components/Spinner';
 
 const Products = () => {
-    const [mounted, setMounted] = useState(false);
     const [products, setProducts] = useState<GetProductData[]>([]);
     const [isFetch, setIsFetch] = useState<boolean>(false);
 

@@ -5,7 +5,7 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import { ProductData } from '../products/new/page';
 import { GetProductData } from '../products/page';
 import Image from 'next/legacy/image';
-import Spinner from './Spinner';
+import { Spinner } from './Spinner';
 import { ICategory } from '../categories/page';
 
 export default function ProductForm({

@@ -1,5 +1,8 @@
-import { BounceLoader } from 'react-spinners';
+import { BounceLoader, ClipLoader } from 'react-spinners';
 
-export default function Spinner() {
+export function Spinner() {
     return <BounceLoader color='#1e3a8a' />;
+}
+export function SpinnerLogIn() {
+    return <ClipLoader color='#fff' />;
 }
