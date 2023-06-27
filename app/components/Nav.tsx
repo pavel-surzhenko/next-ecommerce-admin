@@ -1,12 +1,17 @@
 'use client';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Nav = () => {
     const inactiveLink = 'flex gap-1 p-1';
     const activeLink = inactiveLink + ' bg-white text-blue-900 rounded-l-lg';
     const pathName = usePathname();
+    const router = useRouter();
+    const logOut = async () => {
+        await signOut({ redirect: false });
+        router.replace('/');
+    };
 
     return (
         <aside className='text-white p-4 pr-0'>
@@ -152,7 +157,7 @@ const Nav = () => {
                 </Link>
                 <button
                     className={inactiveLink}
-                    onClick={() => signOut()}
+                    onClick={logOut}
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
