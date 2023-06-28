@@ -150,12 +150,12 @@ const Categories = () => {
                                 <tr key={category._id}>
                                     <td>{category.name}</td>
                                     <td>{category?.parent?.name}</td>
-                                    <td className='flex'>
+                                    <td className='flex gap-1 flex-wrap'>
                                         <button
                                             onClick={() =>
                                                 editCategory(category)
                                             }
-                                            className='btn-primary mr-1 flex items-center gap-1'
+                                            className='btn-default mr-1 flex items-center gap-1'
                                         >
                                             <svg
                                                 xmlns='http://www.w3.org/2000/svg'
@@ -174,7 +174,7 @@ const Categories = () => {
                                             Edit
                                         </button>
                                         <button
-                                            className='btn-primary flex items-center gap-1'
+                                            className='btn-red flex items-center gap-1'
                                             onClick={() =>
                                                 deleteCategory(category)
                                             }

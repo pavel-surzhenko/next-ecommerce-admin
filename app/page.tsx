@@ -9,7 +9,7 @@ export default function Home() {
     return (
         <>
             <Nav />
-            <div className='bg-white flex-grow mt-2 mr-2 rounded-lg mb-2 p-2'>
+            <div className=' flex-grow p-4'>
                 <div className='text-blue-900 flex justify-between'>
                     <h2>
                         Hello, <b>{session?.user?.name}</b>

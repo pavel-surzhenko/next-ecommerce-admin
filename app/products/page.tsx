@@ -47,9 +47,10 @@ const Products = () => {
                         {products.map((product) => (
                             <tr key={product._id}>
                                 <td>{product.title}</td>
-                                <td>
+                                <td className='flex gap-1 flex-wrap'>
                                     <Link
                                         href={'/products/edit/' + product._id}
+                                        className='btn-default'
                                     >
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'
@@ -69,6 +70,7 @@ const Products = () => {
                                     </Link>
                                     <Link
                                         href={'/products/delete/' + product._id}
+                                        className='btn-red'
                                     >
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'

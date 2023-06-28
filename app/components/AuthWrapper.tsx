@@ -6,7 +6,7 @@ export function AuthWrapper({ children }: { children: React.ReactNode }) {
 
     if (status === 'loading') {
         return (
-            <div className='flex flex-grow justify-center items-center'>
+            <div className='w-screen h-screen flex items-center justify-center'>
                 <SpinnerLogIn />
             </div>
         );
@@ -14,7 +14,7 @@ export function AuthWrapper({ children }: { children: React.ReactNode }) {
 
     if (!session) {
         return (
-            <div className='bg-blue-900 w-screen h-screen flex items-center'>
+            <div className='bg-gray-100 w-screen h-screen flex items-center'>
                 <div className='text-center w-full'>
                     <button
                         className='bg-white p-2 rounded-lg px-4'
