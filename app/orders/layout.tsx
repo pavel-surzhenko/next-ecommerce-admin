@@ -1,6 +1,6 @@
 import Nav from '../components/Nav';
 
-const CategoriesLayout = ({ children }: { children: React.ReactNode }) => {
+const OrdersLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <Nav />
@@ -8,4 +8,4 @@ const CategoriesLayout = ({ children }: { children: React.ReactNode }) => {
         </>
     );
 };
-export default CategoriesLayout;
+export default OrdersLayout;
