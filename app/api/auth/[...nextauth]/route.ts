@@ -1,34 +1,7 @@
-import clientPromise from '@/lib/mongodb'
-import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
-import NextAuth, { Awaitable, DefaultSession, NextAuthOptions, Session } from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
+import NextAuth from 'next-auth'
 
-const adminEmails = ['archypasha@gmail.com']
+import { authOptions } from './authOptions'
 
-export const authOptions: NextAuthOptions = {
-    providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_ID as string,
-            clientSecret: process.env.GOOGLE_SECRET as string,
-            authorization: {
-                params: {
-                    prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code"
-                }
-            }
-        })
-    ],
-    adapter: MongoDBAdapter(clientPromise),
-    callbacks: {
-        async signIn({ user }) {
-            if (adminEmails.includes(user?.email!)) {
-                return true
-            } else return false
-        }
-    }
-
-}
 const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

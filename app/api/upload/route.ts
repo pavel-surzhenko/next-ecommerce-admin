@@ -1,15 +1,7 @@
-
-import { PageConfig } from 'next';
 import { NextResponse } from 'next/server';
 import { File } from 'buffer';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import mime from 'mime-types';
-
-export const config: PageConfig = {
-    api: {
-        bodyParser: false,
-    },
-};
 
 const bucketName = 'pavlo-next-ecommerce'
 
